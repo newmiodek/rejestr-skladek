@@ -1,0 +1,37 @@
+{% extends "rejestrapp/base.html" %}
+
+{% block title %}Twoje rejestry{% endblock %}
+
+{% block content %}
+<h1>Rejestry, do których należysz</h1>
+{% if accepted_registers or accepted_invites %}
+<ul>
+  {% for register in accepted_registers %}
+  <li><a href="{% url 'rejestrapp:register' register.pk %}">{{ register }}</a></li>
+  {% endfor %}
+  {% for accepted_invite in accepted_invites %}
+  <li>{{ accepted_invite.0 }}; {{ accepted_invite.1 }} na {{ accepted_invite.2 }} członków przyjęło zaproszenie</li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Brak</p>
+{% endif %}
+<br>
+<p><a href="{% url 'rejestrapp:new_register' %}">Stwórz nowy rejestr</a></p>
+<br>
+<h3>Zaproszenia</h3>
+{% if not_accepted_invites %}
+<ul>
+  {% for invite in not_accepted_invites %}
+  <li>
+    <div style="display: flex;">
+      <p class="p_with_form">Zaproszenie do rejestru &quot;{{ invite }}&quot;</p>
+      <button onclick="window.location.replace('{% url 'rejestrapp:invite' invite.id %}');">Odpowiedz</button>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>Brak</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "rejestrapp/base.html" %}
+{% load static %}
+
+{% block head_additions %}
+<script>
+let form_count = {{formset.total_form_count}};
+window.onload = () => {
+  const users_form = document.getElementById("forms");
+  const total_forms = document.getElementById("id_usernames-TOTAL_FORMS");
+  document.getElementById("add_form").onclick = () => {
+    const template = document.createElement("template");
+    template.innerHTML = "{{formset.empty_form|escapejs}}".replace(/__prefix__/g, form_count);
+    users_form.appendChild(template.content.firstChild);
+    form_count++;
+    total_forms.value = form_count;
+  };
+};
+</script>
+{% endblock %}
+
+{% block title %}Nowy rejestr{% endblock %}
+
+{% block content %}
+<h1>Tworzenie nowego rejestru</h1>
+<form method="post" action="{% url 'rejestrapp:new_register' %}">
+  {% csrf_token %}
+  {{ formset.management_form }}
+  {{ name_form }}
+  <div id="forms">
+    <label for="id_ro_you">Nazwa użytkownika:</label>
+    <input type="text" id="id_ro_you" name="ro_you" value="{{ user.username }}" readonly>
+    {% for form in formset.forms %}
+    {{ form }}
+    {% endfor %}
+  </div>
+  <button type="button" id="add_form">Więcej osób</button>
+  <br><br>
+  <input type="submit" value="Stwórz rejestr">
+</form>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "rejestrapp/base.html" %}
+{% load static %}
+
+{% block head_additions %}
+<script src="{% static "rejestrapp/utils.js" %}"></script>
+<script src="{% static "rejestrapp/new_easy_transaction_validation.js" %}"></script>
+{% endblock %}
+
+{% block title %}Nowa uproszczona transakcja{% endblock %}
+
+{% block content %}
+<h1>{{ register.name }}</h1>
+<form id="new_transaction_form" method="post" action="{% url 'rejestrapp:new_easy_transaction' register.pk %}">
+  {% csrf_token %}
+  {{ form }}
+</form>
+<p id="invalid_value" hidden>Podaj poprawne wartości pieniędzy.</p>
+<p id="not_adding_up">Suma dołożeń powinna się równać wydatkowi.</p>
+<button id="new_transaction_button">Rozpocznij nową transakcję</button>
+{% endblock %}

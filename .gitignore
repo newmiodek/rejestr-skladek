@@ -172,3 +172,10 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+/.null-ls-root
+/mypy.ini
+/pyrightconfig.json
+Dockerfile
+httpd.conf
+rejestrskladek_vhost.conf

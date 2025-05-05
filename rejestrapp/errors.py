@@ -1,0 +1,2 @@
+class BadGroszeException(Exception):
+    pass

@@ -1,0 +1,34 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{% static 'rejestrapp/style.css' %}" rel="stylesheet">
+    <title>{% block title %}Rejestr Składek{% endblock %}</title>
+    {% block head_additions %}{% endblock %}
+  </head>
+  <body>
+    <div id="top_bar">
+      {% if user.is_authenticated %}
+      {% if back %}
+      <div id="back">
+        <p><a href="{{ back }}">Wstecz</a></p>
+      </div>
+      {% endif %}
+      <div id="account">
+        <p id="logged_in_as">Zalogowano jako {{ user.username }}</p>
+        <form action="{% url 'rejestrapp:logout' %}" method="post">
+          {% csrf_token %}
+          <input id="logout_button" type="submit" value="Wyloguj">
+        </form>
+      </div>
+      {% endif %}
+    </div>
+    <div id="content">
+      {% block content %}
+      <p>This is the default page template.</p>
+      {% endblock %}
+    </div>
+  </body>
+</html>

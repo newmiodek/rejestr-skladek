@@ -1,0 +1,30 @@
+{% extends "rejestrapp/base.html" %}
+
+{% block title %}{{ register.name }}{% endblock %}
+
+{% block content %}
+<h1>{{ register.name }}</h1>
+<table>
+  <thead>
+    <tr>
+      <td>Imię</td>
+      <td>Stan konta</td>
+    </tr>
+  </thead>
+  <tbody>
+{% for debt in debts %}
+    <tr>
+      <td>{{ debt.name }}</td>
+      <td>{{ debt.balance }}</td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+<p><a href="{% url 'rejestrapp:new_transaction' register.id %}">Nowa manualna transakcja</a></p>
+<p><a href="{% url 'rejestrapp:new_easy_transaction' register.id %}">Nowa uproszczona transakcja</a></p>
+<ul>
+  {% for transaction in transactions %}
+  <li><a href="{% url 'rejestrapp:transaction_vote' register.id transaction.id %}">{{ transaction.name }}</a>; {{ transaction.init_date }}; {% if transaction.is_settled %}Przyjęte w dniu {{ transaction.settle_date }}{% else %}Narazie nieprzyjęte{% endif %}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

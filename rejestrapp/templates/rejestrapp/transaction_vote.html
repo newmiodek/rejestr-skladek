@@ -1,0 +1,46 @@
+{% extends "rejestrapp/base.html" %}
+
+{% block title %}Głosuj | {{ transaction_name }}{% endblock %}
+
+{% block content %}
+<h1>{{ register_name }}</h1>
+<h3>{{ transaction_name }}</h3>
+<table>
+  <thead>
+    <tr>
+      <td>Imię</td>
+      <td>
+        {% if voting_allowed %}
+        Obecny stan konta
+        {% else %}
+        Stan konta przed
+        {% endif %}
+      </td>
+      <td>Stan konta po</td>
+      <td>Zmiana</td>
+      <td>Zgoda</td>
+      <td>Chce usunąć</td>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in vote_table_rows %}
+    <tr>
+      <td>{{ row.indiv.debt.user.username }}</td>
+      <td>{{ row.balance_before }}</td>
+      <td>{{ row.balance_after }}</td>
+      <td>{{ row.amount }}</td>
+      <td>{% if row.indiv.supports %}&#x2705;{% else %}&#x274C;{% endif %}</td>
+      <td>{% if row.indiv.wants_remove %}&#x2705;{% else %}&#x274C;{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<br>
+{% if voting_allowed %}
+<form method="post" action="{% url 'rejestrapp:transaction_vote' register_id group_transaction_id %}">
+  {% csrf_token %}
+  {{ form }}
+  <input type="submit" value="Zmień zgody">
+</form>
+{% endif %}
+{% endblock %}

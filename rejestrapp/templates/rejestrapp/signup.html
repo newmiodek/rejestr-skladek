@@ -1,0 +1,13 @@
+{% extends "rejestrapp/base.html" %}
+
+{% block title %}Załóż konto{% endblock %}
+
+{% block content %}
+<p><a href="{% url 'rejestrapp:login' %}">Zaloguj sie</a></p>
+<h2>Rejestracja</h2>
+<form method="post" action="{% url 'rejestrapp:signup' %}">
+  {% csrf_token %}
+  {{ form }}
+  <button type="submit">Zarejestruj się</button>
+</form>
+{% endblock %}

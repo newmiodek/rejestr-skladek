@@ -1,0 +1,102 @@
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+body {
+  font-family: "Cantarell", sans-serif;
+}
+
+.centered {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table {
+  border: 1px solid #000;
+  border-spacing: 0px;
+}
+
+td {
+  border: 1px solid #000;
+  min-width: 100px;
+}
+
+#top_bar {
+  margin: 10px;
+  display: flex;
+  justify-content: right;
+}
+
+#top_bar p {
+  margin-right: 10px;
+  margin: 3px 10px 3px 3px;
+}
+
+#account {
+  display: flex;
+  justify-content: right;
+  width: 90%;
+}
+
+#back {
+  width: 10%;
+}
+
+.p_with_form {
+  margin: 1px;
+}
+
+#invite_form_div {
+  display: flex;
+  justify-content: center;
+  margin: 100px 0px 0px 0px;
+}
+
+#reject_invitation {
+  background-color: #FFD5C2;
+  border: 2px solid #F28F3B;
+}
+
+#reject_invitation:hover {
+  background-color: #FFB695;
+  cursor: pointer;
+}
+
+#reject_invitation:active {
+  background-color: #FFA076;
+  cursor: pointer;
+}
+
+#accept_invitation {
+  background-color: #F28F3B;
+  border: 2px solid #C8553D;
+}
+
+#accept_invitation:hover {
+  background-color: #F07F1F;
+  cursor: pointer;
+}
+
+#accept_invitation:active {
+  background-color: #E2700F;
+  cursor: pointer;
+}
+
+.invite_buttons {
+  border-radius: 25px;
+  font-size: 25px;
+  font-weight: bold;
+  padding: 16px;
+  margin: 0px 50px 0px 50px;
+}

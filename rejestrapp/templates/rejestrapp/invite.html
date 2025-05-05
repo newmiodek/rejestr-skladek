@@ -1,0 +1,19 @@
+{% extends "rejestrapp/base.html" %}
+
+{% block title %}Zaproszenie do {{ register.name }}{% endblock %}
+
+{% block content %}
+<div class="centered">
+  <h1>Zaproszenie do rejestru &quot;{{ register.name }}&quot;</h1>
+</div>
+<div id="invite_form_div">
+  <form method="post" action="{% url 'rejestrapp:invite_reject' register.pk %}">
+    {% csrf_token %}
+    <input id="reject_invitation" class="invite_buttons" type="submit" value="Odrzuć">
+  </form>
+  <form method="post" action="{% url 'rejestrapp:invite_accept' register.pk %}">
+    {% csrf_token %}
+    <input id="accept_invitation" class="invite_buttons" type="submit" value="Dołącz">
+  </form>
+</div>
+{% endblock %}
