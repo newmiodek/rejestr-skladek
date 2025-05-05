@@ -1,5 +1,7 @@
 # Rejestr Składek
 
+[Link do działającej strony](https://frog02-20448.wykr.es/)
+
 Rejestr Składek jest narzędziem przydatnym do rozliczania się ze wspólnych
 wydatków w grupie znajomych. Jeśli ktoś często składa się na coś z tymi samymi
 ludźmi, to zamiast pilnować kto komu jest indywidualnie winien, można każdemu
@@ -120,12 +122,12 @@ dwa sposoby na stworzenie transakcji - manualny i uproszczony.
 
 Zacznij od wpisania nazwy dla danej transakcji, np. "Pizza", "Kino", "Taxi".
 Niżej wpisz o ile mają się zmienić stany konta poszczególnych członków rejestru.
-Powinno to wyglądać tak jak we wcześniejszej sekcji - "Jak to działa". Należy
+Powinno to wyglądać tak jak we wcześniejszej sekcji - [Jak to działa](#jak-to-działa). Należy
 zachować tu zasadę zerowej sumy - niech wszystkie wpisane wartości dodają się
 do zera. Jak już wszystko będzie poprawnie wpisane to zatwierdź przyciskiem
 znajdującym się na dole. **Uwaga**: Wpisane wartości nie zostaną dodane do
 obecnych stanów konta odrazu po stworzeniu transakcji. O zatwierdzaniu
-przeczytasz w sekcji "Głosowanie na transakcję" poniżej.
+przeczytasz w sekcji [Głosowanie na transakcję](#głosowanie-na-transakcję) poniżej.
 
 ### Uproszczona transakcja
 
@@ -136,7 +138,7 @@ zakładamy, że każdy ostatecznie da od siebie tyle samo, tylko że w chwili
 kupowania ktoś zapłacił ze swoich pieniędzy za innych i będzie oczekiwał, że
 poprzez przyszłe transakcje zostanie mu oddane. Zmiana na czyimś koncie wyniesie
 wartość wydatku podzielona na ilość członków rejestru, od której odjęto wkład
-tej osoby. Dobrym przykładem tej sytuacji jest podana w sekcji "Jak to działa"
+tej osoby. Dobrym przykładem tej sytuacji jest podana w sekcji [Jak to działa](#jak-to-działa)
 sytuacja z festynem.
 
 ## Głosowanie na transakcję
