@@ -73,7 +73,7 @@ class TokenShare(models.Model):
 class SignupToken(models.Model):
     secret = models.CharField(primary_key=True, max_length=64)
     used_up = models.BooleanField(db_default=False)
-    token_share = models.ForeignKey(TokenShare, on_delete=models.SET_NULL, black=True, null=True)
+    token_share = models.ForeignKey(TokenShare, on_delete=models.SET_NULL, blank=True, null=True)
 
     def __str__(self):
         return "Signup Token"
