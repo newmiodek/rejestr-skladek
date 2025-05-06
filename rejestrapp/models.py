@@ -63,9 +63,17 @@ class IndividualsTransaction(models.Model):
         return f"{self.debt.user.username} {self.debt.register.name} {self.group_transaction.name}"
 
 
+class TokenShare(models.Model):
+    key = models.CharField(primary_key=True, max_length=22)
+
+    def __str__(self):
+        return "Token Share"
+
+
 class SignupToken(models.Model):
     secret = models.CharField(primary_key=True, max_length=64)
     used_up = models.BooleanField(db_default=False)
+    token_share = models.ForeignKey(TokenShare, on_delete=models.SET_NULL, black=True, null=True)
 
     def __str__(self):
         return "Signup Token"

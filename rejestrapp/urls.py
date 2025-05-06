@@ -41,4 +41,9 @@ urlpatterns = [
         views.InviteRejectView.as_view(),
         name="invite_reject",
     ),
+    path(
+        "token-share/<slug:share_id>/",
+        views.TokenShareView.as_view(),
+        name="token_share",
+    ),
 ]

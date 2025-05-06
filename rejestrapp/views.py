@@ -24,6 +24,7 @@ from .models import (
     IndividualsTransaction,
     Register,
     SignupToken,
+    TokenShare,
 )
 from .utils import (
     check_for_errors_in_invite_view,
@@ -611,3 +612,37 @@ class InviteRejectView(LoginRequiredMixin, View):
             debt.delete()
         register.delete()
         return redirect(reverse("rejestrapp:userspace"))
+
+
+class TokenShareView(View):
+    """
+    View for displaying signup tokens to someone
+    that was invited to join the site.
+    """
+
+    http_method_names = ["get", "options"]
+
+    def get(self, request: HttpRequest, *args, **kwargs):
+        share_id = kwargs.get("share_id", "")
+        if share_id == "":
+            return render_error_page(
+                request,
+                "Nieprawidłowy link z dostępem do tokenów",
+                404,
+                reverse("rejestrapp:userspace"),
+            )
+        token_share_q = TokenShare.objects.filter(key=share_id)
+        if token_share_q.count() != 1:
+            return render_error_page(
+                request,
+                "Nieprawidłowy link z dostępem do tokenów",
+                404,
+                reverse("rejestrapp:userspace"),
+            )
+        token_share = token_share_q.first()
+        tokens = SignupToken.objects.filter(token_share=token_share.key).order_by("secret")
+        return render(
+            request,
+            "rejestrapp/token_share.html",
+            {"tokens": tokens, "back": reverse("rejestrapp:userspace")},
+        )
