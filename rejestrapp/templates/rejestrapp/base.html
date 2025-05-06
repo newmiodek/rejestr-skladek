@@ -14,8 +14,8 @@
       <div id="back">
         <p><a href="{{ back }}">Wstecz</a></p>
       </div>
-      {% if user.is_authenticated %}
       {% endif %}
+      {% if user.is_authenticated %}
       <div id="account">
         <p id="logged_in_as">Zalogowano jako {{ user.username }}</p>
         <form action="{% url 'rejestrapp:logout' %}" method="post">
