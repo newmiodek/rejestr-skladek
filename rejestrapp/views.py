@@ -143,7 +143,7 @@ class RegisterView(LoginRequiredMixin, View):
                     debts__register__pk=register.pk
                 )
                 .distinct()
-                .order_by("is_settled", "init_date"),
+                .order_by("is_settled", "-settle_date", "-init_date"),
                 "back": reverse("rejestrapp:userspace"),
             },
         )
