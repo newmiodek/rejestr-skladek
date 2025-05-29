@@ -13,6 +13,16 @@ urlpatterns = [
     ),
     path("logout/", LogoutView.as_view(), name="logout"),
     path("signup/", views.SignUpView.as_view(), name="signup"),
+    path(
+        "account-activation/<slug:token>/",
+        views.AccountActivationView.as_view(),
+        name="account_activation",
+    ),
+    path(
+        "account-activation-cancelling/<slug:token>/",
+        views.AccountActivationCancelView.as_view(),
+        name="account_activation_cancelling",
+    ),
     path("new-register/", views.NewRegisterView.as_view(), name="new_register"),
     path("register/<int:register_id>/", views.RegisterView.as_view(), name="register"),
     path(
@@ -40,10 +50,5 @@ urlpatterns = [
         "invite/<int:register_id>/reject/",
         views.InviteRejectView.as_view(),
         name="invite_reject",
-    ),
-    path(
-        "token-share/<slug:share_id>/",
-        views.TokenShareView.as_view(),
-        name="token_share",
     ),
 ]

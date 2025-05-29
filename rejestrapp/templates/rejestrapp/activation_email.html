@@ -1,0 +1,5 @@
+<h1>Rejestr Składek</h1>
+<p>Aby dokończyć aktywację konta o nazwie <b>{{ nazwa }}</b> wciśnij przycisk "Aktywuj".</p>
+<p>Jeśli nie chcesz tego robić, wciśnij przycisk "Przerwij".</p>
+<h4><a href="{{ request.get_host }}{% url 'rejestrapp:account_activation' token=token %}">Aktywuj</a></h4>
+<h4><a href="{{ request.get_host }}{% url 'rejestrapp:account_activation_cancelling' token=token %}">Przerwij</a></h4>

@@ -1,5 +1,10 @@
+import datetime
+import hashlib
 import random
+import secrets
+import requests
 import typing
+from django.conf import settings
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
@@ -7,6 +12,7 @@ from django.contrib.auth.views import LoginView
 from django.db.models import F
 from django.forms import formset_factory
 from django.http import HttpRequest, HttpResponseRedirect
+from django.template import loader
 from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 from django.views.generic import CreateView, View
@@ -14,8 +20,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .forms import (
     NewRegisterNameForm,
     RequiredFormSet,
-    TokenedUserCreationForm,
     TransactionVoteForm,
+    UserCreationFormWithEmail,
     UserToNewRegisterForm,
 )
 from .models import (
@@ -24,9 +30,9 @@ from .models import (
     IndividualsTransaction,
     Register,
     SignupToken,
-    TokenShare,
 )
 from .utils import (
+    account_activation_link_validation,
     check_for_errors_in_invite_view,
     check_if_can_be_viewed,
     dont_be_logged_in,
@@ -95,27 +101,108 @@ class SignUpView(CreateView):
     logged-in users from accessing it.
     """
 
-    form_class = TokenedUserCreationForm
-    success_url = reverse_lazy("rejestrapp:userspace")
+    form_class = UserCreationFormWithEmail
+    # success_url = reverse_lazy("rejestrapp:userspace")
     template_name = "rejestrapp/signup.html"
 
     def post(self, request, *args, **kwargs):
         self.object = None
         form = self.get_form()
         if form.is_valid():
-            token = SignupToken.objects.get(pk=form.cleaned_data["signup_token"])
-            token.used_up = True
-            token.save()
-            self.object = form.save()
-            new_user = authenticate(
-                request,
-                username=form.cleaned_data["username"],
-                password=form.cleaned_data["password1"],
+            email = form.cleaned_data["email"].lower()
+            previous_token_query = SignupToken.objects.filter(email=email)
+            if previous_token_query.count() != 0:
+                return render_error_page(
+                    request,
+                    "Ten adres e-mail został niedawno użyty w próbie "
+                    "utworzenia konta. Sprawdź swoją skrzynkę.",
+                    400,
+                    reverse("rejestrapp:signup"),
+                )
+            new_user = form.save(commit=False)
+            new_user.is_active = False
+            new_user.email = email
+            new_user.save()
+            new_user.refresh_from_db()
+            self.object = new_user
+            token = secrets.token_hex(32)
+            hashed_token = hashlib.sha256(bytes(token, "utf-8")).hexdigest()
+            SignupToken.objects.create(pk=hashed_token, email=email)
+            email_api_req_headers = {
+                "Content-Type": "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+                "User-Agent": "RejestrSkladek",
+                "Authorization": f"Bearer {settings.EMAIL_API_KEY}",
+            }
+            message_template = loader.get_template("rejestrapp/activation_email.html")
+            message_html = message_template.render(
+                {"nazwa": new_user.username, "token": token}, request
             )
-            login(request, new_user)
-            return HttpResponseRedirect(self.get_success_url())
+            email_api_message = {
+                "from": {
+                    "email": settings.EMAIL_API_EMAIL_ADDRESS,
+                    "name": "Rejestr Składek",
+                },
+                "to": [
+                    {
+                        "email": email,
+                        "name": new_user.username,
+                    }
+                ],
+                "subject": "Dokończ tworzenie konta w Rejestrze Składek",
+                "html": message_html,
+            }
+            email_api_response = requests.post(
+                "https://api.mailersend.com/v1/email",
+                headers=email_api_req_headers,
+                json=email_api_message,
+            )
+            if not email_api_response.ok:
+                return render_error_page(
+                    request,
+                    "Nie udało się dotrzeć do podanego adresu e-mail",
+                    400,
+                    reverse("rejestrapp:signup"),
+                )
+
+            return render(
+                request,
+                "rejestrapp/go_to_email.html",
+                {"back": reverse("rejestrapp:login")},
+            )
         else:
             return self.form_invalid(form)
+
+
+class AccountActivationView(View):
+    """
+    View for handling the clicking of the activation link.
+    It changes the particular account's 'is_active' to True.
+    """
+
+    http_method_names = ["get", "options"]
+
+    @account_activation_link_validation
+    def get(self, request: HttpRequest, *args, **kwargs):
+        activated_user = kwargs["account_activation_link_validation__user"]
+        activated_user.is_active = True
+        activated_user.save()
+        return HttpResponseRedirect(reverse("rejestrapp:login"))
+
+
+class AccountActivationCancelView(View):
+    """
+    View for canceling account creation. Accessed from
+    the activation email.
+    """
+
+    http_method_names = ["get", "options"]
+
+    @account_activation_link_validation
+    def get(self, request: HttpRequest, *args, **kwargs):
+        cancelled_user = kwargs["account_activation_link_validation__user"]
+        cancelled_user.delete()
+        return HttpResponseRedirect(reverse("rejestrapp:signup"))
 
 
 @check_if_can_be_viewed
@@ -527,7 +614,7 @@ class NewRegisterView(LoginRequiredMixin, View):
                 added_users_ids.append(one_user.pk)
             added_users.append(typing.cast(User, request.user))
             # added_users.append(request.user)
-            added_users_ids.append(request.user.pk)
+            added_users_ids.append(typing.cast(int, request.user.pk))
             register = Register.objects.create(name=name_form.cleaned_data["name"])
             register.users.add(*added_users)
             register.save()
@@ -612,37 +699,3 @@ class InviteRejectView(LoginRequiredMixin, View):
             debt.delete()
         register.delete()
         return redirect(reverse("rejestrapp:userspace"))
-
-
-class TokenShareView(View):
-    """
-    View for displaying signup tokens to someone
-    that was invited to join the site.
-    """
-
-    http_method_names = ["get", "options"]
-
-    def get(self, request: HttpRequest, *args, **kwargs):
-        share_id = kwargs.get("share_id", "")
-        if share_id == "":
-            return render_error_page(
-                request,
-                "Nieprawidłowy link z dostępem do tokenów",
-                404,
-                reverse("rejestrapp:userspace"),
-            )
-        token_share_q = TokenShare.objects.filter(key=share_id)
-        if token_share_q.count() != 1:
-            return render_error_page(
-                request,
-                "Nieprawidłowy link z dostępem do tokenów",
-                404,
-                reverse("rejestrapp:userspace"),
-            )
-        token_share = token_share_q.first()
-        tokens = SignupToken.objects.filter(token_share=token_share.key).order_by("secret")
-        return render(
-            request,
-            "rejestrapp/token_share.html",
-            {"tokens": tokens, "back": reverse("rejestrapp:userspace")},
-        )

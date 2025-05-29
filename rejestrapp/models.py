@@ -1,12 +1,10 @@
-from django.contrib.auth import get_user_model
+from django.contrib.auth.models import User
 from django.db import models
 
 
 class Register(models.Model):
     name = models.CharField(max_length=128)
-    users: models.ManyToManyField = models.ManyToManyField(
-        get_user_model(), through="Debt"
-    )
+    users: models.ManyToManyField = models.ManyToManyField(User, through="Debt")
     all_accepted = models.BooleanField(db_default=False)
 
     def __str__(self):
@@ -14,7 +12,7 @@ class Register(models.Model):
 
 
 class Debt(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
     register = models.ForeignKey(Register, on_delete=models.PROTECT)
     balance = models.IntegerField(db_default=0)  # w groszach
     accepted = models.BooleanField(db_default=False)
@@ -63,17 +61,9 @@ class IndividualsTransaction(models.Model):
         return f"{self.debt.user.username} {self.debt.register.name} {self.group_transaction.name}"
 
 
-class TokenShare(models.Model):
-    key = models.CharField(primary_key=True, max_length=22)
-
-    def __str__(self):
-        return "Token Share"
-
-
 class SignupToken(models.Model):
     secret = models.CharField(primary_key=True, max_length=64)
-    used_up = models.BooleanField(db_default=False)
-    token_share = models.ForeignKey(TokenShare, on_delete=models.SET_NULL, blank=True, null=True)
+    email = models.EmailField(unique=True, blank=False, null=False)
 
     def __str__(self):
         return "Signup Token"

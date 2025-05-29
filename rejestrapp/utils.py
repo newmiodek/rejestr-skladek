@@ -1,3 +1,5 @@
+import hashlib
+import typing
 from django import forms
 from django.contrib.auth.models import User
 from django.db.models.query import QuerySet
@@ -6,7 +8,7 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from .errors import BadGroszeException
 from .forms import NewEasyTransactionFormBase, NewTransactionFormBase
-from .models import Debt, Register
+from .models import Debt, Register, SignupToken
 
 
 def gr_to_zl(gr: int) -> str:
@@ -69,7 +71,9 @@ def generate_new_transaction_form_class(new_transaction_users: QuerySet[User]) -
     return type("NewTransactionForm", (NewTransactionFormBase,), fields)
 
 
-def generate_new_easy_transaction_form_class(new_transaction_users: QuerySet[User]) -> type:
+def generate_new_easy_transaction_form_class(
+    new_transaction_users: QuerySet[User],
+) -> type:
     fields = {
         f"value_for_{new_transaction_user.pk}": forms.FloatField(
             label=f"Ile dołożył {new_transaction_user.username}",
@@ -142,3 +146,58 @@ def check_for_errors_in_invite_view(request, register_id):
             ),
         )
     return register, this_debt, None
+
+
+VALID_TOKEN_CHARS = (
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "a",
+    "b",
+    "c",
+    "d",
+    "e",
+    "f",
+)
+
+
+def account_activation_link_validation(func):
+    def get(self, request: HttpRequest, *args, **kwargs):
+        url_token = kwargs["token"]
+        token_well_formed = len(url_token) == 64
+        if token_well_formed:
+            for i in range(64):
+                if url_token[i] not in VALID_TOKEN_CHARS:
+                    token_well_formed = False
+                    break
+        if token_well_formed:
+            hashed_form_token = hashlib.sha256(bytes(url_token, "utf-8")).hexdigest()
+            token_query = SignupToken.objects.filter(pk=hashed_form_token)
+            if token_query.count() == 0:
+                return render_error_page(
+                    request,
+                    "Nieprawidłowy link aktywacyjny",
+                    403,
+                    reverse("rejestrapp:signup"),
+                )
+            token = typing.cast(SignupToken, token_query.first())
+            user = User.objects.get(email=token.email)
+            token_query.delete()
+            kwargs.update({"account_activation_link_validation__user": user})
+            return func(self, request, *args, **kwargs)
+        else:
+            return render_error_page(
+                request,
+                "Nieprawidłowy link aktywacyjny",
+                403,
+                reverse("rejestrapp:signup"),
+            )
+
+    return get
