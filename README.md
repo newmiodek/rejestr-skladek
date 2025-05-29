@@ -90,16 +90,9 @@ https://github.com/user-attachments/assets/77518663-10d2-4b4b-afe8-258b86ed4e01
 
 # Instrukcja użytkowania
 
-## Rejestracja
-
-Aby założyć konto, potrzebny jest nieużyty wcześniej token rejestracyjny
-wygenerowany przez administratora. Czyni to ten system zamkniętym na ludzi
-zaproszonych przez właściciela. Niewykluczone, że w przyszłości ten sposób
-rejestracji zostanie zastąpiony standardową rejestracją przy użyciu emaila.
-
 ## Tworzenie rejestru
 
-Na stronie wyświetlonej po pomyślnym zarejestrowaniu się jest przycisk z napisem
+Na stronie wyświetlonej po zalogowaniu się jest przycisk z napisem
 ```Stwórz nowy rejestr``` - wciśnij go. Wpisz nazwę rejestru oraz nazwy
 użytkowników, których chcesz zaprosić. Zatwierdź. Teraz musisz zaczekać, aż
 wszyscy zaproszeni odpowiedzą na zaproszenie. Jeśli wszyscy się zgodzą na
