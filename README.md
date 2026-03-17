@@ -1,167 +1,146 @@
-# Rejestr Składek
+# Debt Register
 
-[Link do działającej strony](https://frog02-20448.wykr.es/)
+[Link to the hosted app](https://frog02-20448.wykr.es/)
 
-Rejestr Składek jest narzędziem przydatnym do rozliczania się ze wspólnych
-wydatków w grupie znajomych. Jeśli ktoś często składa się na coś z tymi samymi
-ludźmi, to zamiast pilnować kto komu jest indywidualnie winien, można każdemu
-liczyć ile wydał i ile dostał, a zadaniem każdego będzie być jak najbliżej zera.
+Debt Register is a tool that's useful for settling shared expenses with your
+friends. If you often buy things as a group, then instead of everyone keeping
+track of how much they owe everyone else individually, you can keep track of
+how much each person has received, how much they've spent, and everyone's goal
+will be to be as close to zero as possible.
 
-## Jak to działa
+## How it works
 
-### Każdy zaczyna z zerem na koncie
+### Everyone starts with their balance at zero
 
-| Imię      | Stan konta |
+| Name      | Balance    |
 | --------- | ---------- |
-| Róża      | 0          |
+| Rose      | 0          |
+| Hazel     | 0          |
 | Kalina    | 0          |
-| Hiacynt   | 0          |
-| Jaskier   | 0          |
+| Jasmine   | 0          |
 
-Zanim ktokolwiek cokolwiek wyda, każdy jest na zero. Teraz powiedzmy, że
-powyźsi znajomi postanowili złożyć się na jedzenie. Zrobili sobie zakupy za
-100zł i tym razem Róża zapłaciła za wszystkich. W tej transakcji każdy dostał
-coś o wartości 100zł / 4 = 25zł, ale z portfela Róży uszło 100zł, więc na jej
-koncie będzie 25zł - 100zł = -75zł. Po tych zakupach ich rejestr prezentuje się
-następująco:
+Before anyone spends any money, everyone is at zero. Now, let's say, that the
+group of friends from the table above decides to go out for dinner. They bought
+food for $100 and Rose paid for all of them. In this transaction, everyone got
+the equivalent of $100 / 4 = $25, but Rose gave away $100 from her wallet, so
+the balance on her account will be $25 - $100 = -$75. After this transaction,
+their register looks as follows:
 
-| Imię      | Stan konta |
+| Name      | Balance    |
 | --------- | ---------- |
-| Róża      | -75        |
+| Rose      | -75        |
+| Hazel     | 25         |
 | Kalina    | 25         |
-| Hiacynt   | 25         |
-| Jaskier   | 25         |
+| Jasmine   | 25         |
 
-Jeśli ktoś jest na plusie, to znaczy, że do tej pory dostał więcej niż wydał,
-więc na przykład przy następnych zakupach to ta osoba powinna być bardziej
-skłonna zapłacić za wszystkich.
+If someone is above zero, then it means that up to this point they have received
+more than they've spent, so next time they decide to buy something together,
+that person should feel obliged to pay.
 
-Jeśli ktoś jest na minusie, to znaczy, że do tej pory wydał więcej niż dostał,
-więc na obecną chwilę może sobie pozwolić na odpoczynek od płacenia za innych.
+If someone is below zero, then it means that they've spent more than they've
+received, so for now they can take a break from paying.
 
-Teraz powiedzmy, że nasza grupka postanowiła złożyć się na wejście na atrakcję
-na festynie. Łącznie bilety za nich wszystkich kosztują 60zł. Płatność gotówką.
-Tak się złożyło, że Róża i Kalina nie wzięły swoich portfeli, Hiacynt ma przy
-sobie 50zł, a Jaskier ma 10zł. Każdy tutaj otrzymuje coś wartego
-60zł / 4 = 15zł, z portfela Hiacynta uszło 50zł (więc zmiana na jego koncie
-wyniesie 15zł - 50zł = -35zł), a z portfela Jaskra uszło 10zł
-(zmiana 15zł - 10zł = 5zł). Tak wygląda ta sytuacja:
+Now let's say that our group of friends decided to buy tickets for a ride at an
+amusement park. The tickets cost $60 in total. Cash only. It turned out that
+Rose and Hazel left their wallets at home, Jasmine has $50, and Kalina has $10.
+Everyone receives the equivalent of $60 / 4 = $15, $50 came out of Jasmine's
+wallet (so her balance will change by $15 - $50 = -$35), and $10 came out of
+Kalina's wallet (balance will change by $15 - $10 = $5). Here's how it comes
+out:
 
-| Imię      | Stan konta przed | Stan konta po | Zmiana |
+| Name      | Balance before   | Balance after | Change |
 | --------- | ---------------- | ------------- | ------ |
-| Róża      | -75              | -60           | 15     |
-| Kalina    | 25               | 40            | 15     |
-| Hiacynt   | 25               | 30            | 5      |
-| Jaskier   | 25               | -10           | -35    |
+| Rose      | -75              | -60           | 15     |
+| Hazel     | 25               | 40            | 15     |
+| Kalina    | 25               | 30            | 5      |
+| Jasmine   | 25               | -10           | -35    |
 
-Ostatecznie chodzi tu o to, że ile kto dostał, tyle jest mu dodawane, a ile kto
-wydał, tyle jest od niego odejmowane. Mając na koncie zero można być pewnym, że
-do tej pory wydało się dokładnie tyle, ile się dostało - czy to w formie
-jedzenia, jakiejś usługi, czy po prostu przelewu na konto.
+Ultimately it comes down to the amount of money that someone receives being added
+to their balance, and the money they spend being subtracted. If your balance is
+at zero, then you can be sure that you got as much as you gave - in the form of
+food, some service, or just a plain bank transfer.
 
-## Suma kont jest równa zero
+## The balances add up to zero
 
-Bardzo istotną właściwością tego rejestru jest to, że w każdym momencie suma
-stanów kont wszystkich członków jest równa zero. To odzwierciedla fakt, że jedne
-osoby dają drugim jakąś wartość - działa to jak zwykłe pożyczanie pieniędzy, ale
-jest dużo wygodniejsze.
+A very important property of a register is the fact that at every moment in
+time, if you add up all the balances, you get zero. This represents the fact
+that during a transaction some people give some value to others - it works like
+borrowing money, but it's simpler to pay everyone back.
 
-## Motywacja i testowanie w boju
+## Motivation and field testing
 
-Ten projekt powstał po długim czasie obliczania tego rodzaju transakcji ręcznie
-w notatkach na telefonie i na kartkach papieru. Wraz z moją grupką znajomych
-porządnie przetestowaliśmy ten sposób rozliczania się i jesteśmy z niego bardzo
-zadowoleni. Używaliśmy go między innymi do składania się na prezenty
-urodzinowe, na wspólne wyjścia, itp. Najdogłębniejszym użyciem tego systemu był
-nasz kilkudniowy wyjazd, gdzie każdy posiłek i każdy inny większy wydatek był
-zapisywany w tego rodzaju rejestrze. Pojedyńcze transakcje były zapisywane
-przeze mnie jako wiadomości do siebie na komunikatorze, a dwa razy w ciągu
-wyjazdu przysiedliśmy, żeby podliczyć dotychczas wydane pieniądze, żeby na
-koniec wyjazdu nie pomylić się musząc zliczać wszystko ze wszystkich dni naraz.
-Zaoszczędziliśmy dużo czasu robiąc to w ten sposób, w przeciwieństwie do tego
-jak by to wyglądało, gdyby każdy z nas próbował pilnować ile jest winien każdej
-pojedyńczej osobie, i ile każdy jest winien jemu. Widać jednak było, że poszłoby
-to wszystko jeszcze szybciej, gdyby obliczenia działy się same i stąd właśnie
-przyszedł pomysł na ten projekt.
+This project began after a long time of doing this type of calculations by hand
+in a notes app and on pieces of paper. My friends and I have thoroughly tested
+this type of expense settling and we're very happy with it. We've used it for
+buying birthday gifts, going out, etc. The most thorough use of this system was
+our 10-day trip, where every meal and every other type of expense was recorded
+in this type of a register. I wrote down individual transactions as messages to
+myself on my phone, and two times during the trip we sat down to add all of it
+up, so that at the end of the trip we wouldn't have to add up too much at once,
+which we feared would be prone to error. We definitely did end up saving a lot
+of time doing it this way in comparison to how long it would have taken us to
+keep track of how much each person owes each other person individually, but it
+was clear that it would have been even faster to do this with some kind of
+automated system. And hence the idea for this project was born.
 
-# Prezentacja
+# Presentation
 
 https://github.com/user-attachments/assets/77518663-10d2-4b4b-afe8-258b86ed4e01
 
-# Instrukcja użytkowania
+# User's manual
 
-## Tworzenie rejestru
+## Creating a register
 
-Na stronie wyświetlonej po zalogowaniu się jest przycisk z napisem
-```Stwórz nowy rejestr``` - wciśnij go. Wpisz nazwę rejestru oraz nazwy
-użytkowników, których chcesz zaprosić. Zatwierdź. Teraz musisz zaczekać, aż
-wszyscy zaproszeni odpowiedzą na zaproszenie. Jeśli wszyscy się zgodzą na
-dołączenie, to tworzenie rejestru dobiegnie końca i będzie już można wpisywać
-transakcje. Jeśli jednak chociaż jedna osoba odrzuci zaproszenie to tworzenie
-rejestru zostanie anulowane. Wtedy można spróbować stworzyć nowy rejestr bez
-tej osoby, albo zrobić coś innego odpowiedniego dla konkretnej sytuacji.
+On the page that you'll see after logging in there is a button with the text
+```Stwórz nowy rejestr``` - press it. Enter a name for your register and
+usernames of users that you'd like to invite to it. Submit. Now you have to
+wait for the users that you've invited to respond to the invitation. If
+everyone accepts, the process of creating the register will be over and you
+will be able to start using it. If at least one person rejects the invitation,
+then the creation of the register will be cancelled.
 
-## Odpowiadanie na zaproszenia
+## Responding to invites
 
-Na tej samej stronie, na której jest przycisk do tworzenia rejestrów, znajduje
-się również lista zaproszeń. Jeśli ktoś wpisał twoją nazwę podczas tworzenia
-rejestru, to przyjdzie do ciebie tutaj zaproszenie. Wciśnij ```Odpowiedz```, po
-czym wciśnij przycisk odpowiadający temu, co chcesz zrobić - czy przyjąć,
-czy nie.
+On the same page there is a list of pending invites. Press ```Odpowiedz```,
+and then press the button that corresponds to how you want to respond - whether
+to accept or reject the invitation.
 
-## Tworzenie transakcji
+## Creating transaction
 
-Jak już będziesz członkiem jakiegoś rejestru, wyświetli ci się on w liście
-widocznej na wspominanej wcześniej stronie głównej. Wejdź w niego. Masz teraz
-dwa sposoby na stworzenie transakcji - manualny i uproszczony.
+After you become a member of a register you'll see the register in the list
+on your main menu. Enter it. Now you have two ways of creating a transaction
+ - manual and simplified.
 
-### Manualna transakcja
+### Manual transaction
 
-Zacznij od wpisania nazwy dla danej transakcji, np. "Pizza", "Kino", "Taxi".
-Niżej wpisz o ile mają się zmienić stany konta poszczególnych członków rejestru.
-Powinno to wyglądać tak jak we wcześniejszej sekcji -
-[Jak to działa](#jak-to-działa). Należy zachować tu zasadę zerowej sumy -
-niech wszystkie wpisane wartości dodają się do zera. Jak już wszystko będzie
-poprawnie wpisane to zatwierdź przyciskiem znajdującym się na dole. **Uwaga**:
-Wpisane wartości nie zostaną dodane do obecnych stanów konta odrazu po
-stworzeniu transakcji. O zatwierdzaniu przeczytasz w sekcji
-[Głosowanie na transakcję](#głosowanie-na-transakcję) poniżej.
+Start by entering the name of the transaction, for example "Pizza", "Theater",
+or "Taxi". Next, enter the amounts by which the balance of each user should
+change. It should look like in the [How it works](#how-it-works) section.
+You have to respect the zero sum rule - all of the changes have to add up to
+zero. After everything has been correctly entered, submit by clicking the
+button below. **Notice**: The provided values won't be immediately added to the
+balances. To learn about confirming transactions, go to the
+[Voting on a transaction](#voting-on-a-transaction) section below.
 
-### Uproszczona transakcja
+### Simplified transaction
 
-Najpierw wpisz nazwę transakcji. W następne pole wpisz ile kosztowało to, na co
-się grupowo składacie. Dalej powpisuj w pola odpowiadające członkom rejestru
-jaki był ich dotychczasowy wkład w to co było kupione. Chodzi tu o to, że
-zakładamy, że każdy ostatecznie da od siebie tyle samo, tylko że w chwili
-kupowania ktoś zapłacił ze swoich pieniędzy za innych i będzie oczekiwał, że
-poprzez przyszłe transakcje zostanie mu oddane. Zmiana na czyimś koncie wyniesie
-wartość wydatku podzielona na ilość członków rejestru, od której odjęto wkład
-tej osoby. Dobrym przykładem tej sytuacji jest podana w sekcji
-[Jak to działa](#jak-to-działa) sytuacja z festynem.
+First, enter the name of the transaction. Then enter the cost of the thing that
+you all bought. After that, enter each person's contribution to the payment.
+The change in a user's balance will be value of the expense divided by the
+number of people in the register minus that user's contribution. An example
+of such a transaction is the amusement park situation in the
+[How it works](#how-it-works) section.
 
-## Głosowanie na transakcję
+## Voting on a transaction
 
-Gdy jakaś transakcja została już wpisana w system, dane z niej nie zostaną
-jeszcze dodane do obecnych stanów kont. Najpierw będzie oczekiwała na zgodę
-wszystkich członków. Aby wyrazić zgodę, wejdź w daną transakcję ze strony
-rejestru, zaznacz pole odpowiadające głosowi, który chciałbyś wysłać i zatwierdź
-przyciskiem poniżej. Wartości z transakcji zostaną wliczone w stany kont
-użytkowników dopiero gdy wszyscy wyrażą na nią swoją zgodę. Istnieje również
-możliwość zagłosowania za usunięciem danej transakcji. **Uwaga**: Transakcję
-można usunąć tylko jeśli nie została ona jeszcze zatwierdzona. Po tym, jak
-wszyscy wyrazili swoją zgodę, nie można już zmieniać swoich głosów w danej
-transakcji. Da się jednocześnie zagłosować za zatwierdzeniem transakcji i za jej
-usunięciem. Może to być przydatne np. w sytuacji, gdy ktoś akurat nie
-uczestniczył w kupowaniu czegoś (przez co zmiana na jego koncie wyniesie 0)
-i ta osoba nie chce przeszkadzać uczestnikom transakcji w głosowaniu za ani za
-zatwierdzeniem, ani za usunięciem.
-
-# Przyszły rozwój
-
-Ten projekt będzie się jeszcze rozwijał. Obecnie zaplanowane jest dodanie nowego
-rodzaju uproszczonej transakcji, w której można zawrzeć, że jedni w danej
-sytuacji dostali więcej niż drudzy - np. zamawiając w restauracji jedna osoba
-kupiła zupę za 20zł, a ktoś inny kupił steka za 60zł (wpisanie takiej transakcji
-**jest** obecnie możliwe, ale tylko poprzez manualną transakcję, więc trzeba
-samemu liczyć ile komu wyjdzie zmiana). Przyda się też lepiej wyglądająca oprawa
-graficzna.
+When a transaction enters the system, the balance changes that it brings aren't
+pushed through right away. It first needs to be accepted by all members of the
+register. To accept a transaction go to that transaction's page from the
+register's page, check the appropriate checkbox and submit. It's also possible
+to vote for a transaction's removal. **Notice**: A transaction can only be
+removed if it has not yet been accepted. After everyone voted to accept it,
+you can't change your vote on that transaction. It's possible to simultaneously
+vote to accept and remove a transaction. It's intended to be done in the case
+when someone doesn't care whether a transaction goes through or not, for example
+when someone didn't take part in an expense, which means that the change for
+them is zero.
