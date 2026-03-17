@@ -105,11 +105,11 @@ On the same page there is a list of pending invites. Press ```Odpowiedz```,
 and then press the button that corresponds to how you want to respond - whether
 to accept or reject the invitation.
 
-## Creating transaction
+## Creating transactions
 
 After you become a member of a register you'll see the register in the list
-on your main menu. Enter it. Now you have two ways of creating a transaction
- - manual and simplified.
+on your main menu. Enter it. Now you have two ways of creating a transaction -
+manual and simplified.
 
 ### Manual transaction
 
